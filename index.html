@@ -227,6 +227,19 @@
     <span id="footerText">د پکتیا ځوانانو جرګه</span>
   </footer>
 </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://fcqqdtbrcjziaaqzfbeq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_CIgmy2LjDIHftRHeTFqjWA_5bFMUbbf";
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+console.log("Supabase connected successfully!");
+</script>
 <script>
   const translations = {
     ps: {
@@ -450,18 +463,6 @@
   loadRecords();
   changeLanguage();
 </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://fcqqdtbrcjziaaqzfbeq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_CIgmy2LjDIHftRHeTFqjWA_5bFMUbbf";
-
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-console.log("Supabase connected successfully!");
-</script>
+  
 </body>
 </html>

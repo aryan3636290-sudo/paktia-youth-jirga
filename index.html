@@ -389,12 +389,33 @@
     });
   }
   document.getElementById("personForm")
-    .addEventListener("submit", function(event) {
-      event.preventDefault();
-      const record = {};
-      fieldIds.forEach(function(id) {
-        record[id] = document.getElementById(id).value.trim();
-      });
+  .addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const record = {};
+    fieldIds.forEach(function(id) {
+      record[id] = document.getElementById(id).value.trim();
+    });
+
+    const status = document.getElementById("status");
+    status.textContent = "معلومات ثبتېږي، مهرباني وکړئ انتظار وکړئ...";
+
+    const { data, error } = await supabase
+      .from("members")
+      .insert([record]);
+
+    if (error) {
+      console.error("Supabase error:", error);
+      status.textContent = "معلومات ثبت نه شول: " + error.message;
+      return;
+    }
+
+    records.push(record);
+    saveRecordsLocally();
+    status.textContent = "معلومات په بریالیتوب ثبت شول!";
+    this.reset();
+    renderTable();
+  });
       records.push(record);
       if (!saveRecordsLocally()) {
         records.pop();

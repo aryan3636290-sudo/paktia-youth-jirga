@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<html lang="ps" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>د پکتیا ځوانانو جرګه</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172033;
+    }
+    header {
+      background: #075b42;
+      color: white;
+      padding: 25px 15px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 8px 0;
+      font-size: 27px;
+    }
+    header p {
+      margin: 8px 0 0;
+    }
+    .language {
+      text-align: center;
+      margin: 18px auto;
+    }
+    select, input, button {
+      font: inherit;
+    }
+    .language select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+    }
+    .container {
+      max-width: 850px;
+      margin: 15px auto;
+      padding: 0 12px 30px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px #0000000c;
+    }
+    h2 {
+      color: #075b42;
+      margin-top: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+    }
+    input:focus {
+      outline: 2px solid #86cbb0;
+      border-color: #075b42;
+    }
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      cursor: pointer;
+      margin: 8px 5px 0 0;
+    }
+    .primary {
+      background: #087f5b;
+      color: white;
+    }
+    .secondary {
+      background: #1d4ed8;
+      color: white;
+    }
+    .warning {
+      background: #b45309;
+      color: white;
+    }
+    .danger {
+      background: #b91c1c;
+      color: white;
+    }
+    .status {
+      margin-top: 14px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+    .table-wrap {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #e2e8f0;
+      text-align: right;
+    }
+    th {
+      background: #e8f5ef;
+    }
+    .notice {
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.9;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+    }
+    @media (max-width: 550px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      header h1 {
+        font-size: 22px;
+      }
+      .card {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1 id="siteTitle">د پکتیا ځوانانو جرګه</h1>
+  <p id="siteSubtitle">د ځوانانو د معلوماتو د ثبت سیستم </p>
+</header>
+<div class="language">
+  <label for="language" id="languageLabel">ژبه انتخاب کړئ</label>
+  <select id="language" onchange="changeLanguage()">
+    <option value="ps">پښتو</option>
+    <option value="fa">دری</option>
+    <option value="en">English</option>
+  </select>
+</div>
+<main class="container">
+  <section class="card">
+    <h2 id="formTitle">د معلوماتو ثبت</h2>
+    <form id="personForm">
+      <div class="grid">
+        <div>
+          <label for="name" id="nameLabel">نوم</label>
+          <input id="name" required maxlength="100">
+        </div>
+        <div>
+          <label for="surname" id="surnameLabel">تخلص</label>
+          <input id="surname" required maxlength="100">
+        </div>
+        <div>
+          <label for="district" id="districtLabel">ولسوالي</label>
+          <input id="district" required maxlength="100">
+        </div>
+        <div>
+          <label for="education" id="educationLabel">د تعلیم کچه</label>
+          <input id="education" required maxlength="150">
+        </div>
+        <div>
+          <label for="job" id="jobLabel">دنده</label>
+          <input id="job" required maxlength="100">
+        </div>
+        <div>
+          <label for="original" id="originalLabel">اصلي استوګنځی</label>
+          <input id="original" required maxlength="150">
+        </div>
+        <div>
+          <label for="current" id="currentLabel">فعلي استوګنځی</label>
+          <input id="current" required maxlength="150">
+        </div>
+        <div>
+          <label for="phone" id="phoneLabel">د موبایل شمېره </label>
+          <input id="phone" type="tel"
+                 inputmode="tel" required maxlength="30">
+        </div>
+      </div>
+      <button type="submit" class="primary" id="saveButton">
+        معلومات ثبت کړئ
+      </button>
+    </form>
+    <div id="status" class="status" role="status"></div>
+  </section>
+  <section class="card">
+    <h2 id="recordsTitle">ثبت شوي معلومات</h2>
+    <p class="notice" id="storageNotice">
+    </p>
+    <button class="secondary" id="pdfButton" type="button">
+      PDF راپور چاپ کړئ
+    </button>
+    <button class="warning" id="downloadButton" type="button">
+      د معلوماتو فایل ښکته کړئ
+    </button>
+    <div class="table-wrap" style="margin-top:18px">
+      <table>
+        <thead>
+          <tr id="tableHead"></tr>
+        </thead>
+        <tbody id="recordsBody"></tbody>
+      </table>
+    </div>
+  </section>
+  <footer>
+    <span id="footerText">د پکتیا ځوانانو جرګه</span>
+  </footer>
+</main>
+<script>
+  const translations = {
+    ps: {
+      dir: "rtl",
+      title: "د پکتیا ځوانانو جرګه",
+      subtitle: "د ځوانانو د معلوماتو د ثبت سیستم",
+      language: "ژبه انتخاب کړئ",
+      form: "د معلوماتو ثبت",
+      name: "نوم",
+      surname: "تخلص",
+      district: "ولسوالي",
+      education: "د تعلیم کچه",
+      job: "دنده",
+      original: "اصلي استوګنځی",
+      current: "فعلي استوګنځی",
+      phone: "د موبایل شمېره",
+      save: "معلومات ثبت کړئ",
+      records: "ثبت شوي معلومات",
+      pdf: "PDF راپور چاپ کړئ",
+      download: "د معلوماتو فایل ښکته کړئ",
+      success: "معلومات په همدې براوزر کې ثبت شول.",
+      empty: "تر اوسه معلومات نشته.",
+      cols: ["نوم", "تخلص", "ولسوالي", "تعلیم", "دنده", "اصلي استوګنځی", "فعلي استوګنځی", "شمېره"],
+      footer: "د پکتیا ځوانانو جرګه"
+    },
+    fa: {
+      dir: "rtl",
+      title: "جرگه جوانان پکتیا",
+      subtitle: "سیستم ثبت معلومات جوانان",
+      language: "زبان را انتخاب کنید",
+      form: "ثبت معلومات",
+      name: "نام",
+      surname: "تخلص",
+      district: "ولسوالی",
+      education: "سطح تحصیل",
+      job: "وظیفه",
+      original: "محل سکونت اصلی",
+      current: "محل سکونت فعلی",
+      phone: "شماره موبایل",
+      save: "ثبت معلومات",
+      records: "معلومات ثبت‌شده",
+      pdf: "چاپ گزارش PDF",
+      download: "دانلود فایل معلومات",
+      success: "معلومات در همین مرورگر ثبت شد.",
+      empty: "هنوز معلوماتی وجود ندارد.",
+      cols: ["نام", "تخلص", "ولسوالی", "تحصیل", "وظیفه", "سکونت اصلی", "سکونت فعلی", "شماره"],
+      footer: "جرگه جوانان پکتیا"
+    },
+    en: {
+      dir: "ltr",
+      title: "Paktia Youth Jirga",
+      subtitle: "Youth Information Registration System",
+      language: "Select language",
+      form: "Register Information",
+      name: "First Name",
+      surname: "Surname",
+      district: "District",
+      education: "Education Level",
+      job: "Occupation",
+      original: "Original Residence",
+      current: "Current Residence",
+      phone: "Mobile Number",
+      save: "Save Information",
+      records: "Registered Information",
+      pdf: "Print PDF Report",
+      download: "Download Data File",
+      success: "Information saved in this browser.",
+      empty: "No records yet.",
+      cols: ["Name", "Surname", "District", "Education", "Occupation", "Original Residence", "Current Residence", "Phone"],
+      footer: "Paktia Youth Jirga"
+    }
+  };
+  const fieldIds = [
+    "name", "surname", "district", "education",
+    "job", "original", "current", "phone"
+  ];
+  const keys = [
+    "name", "surname", "district", "education",
+    "job", "original", "current", "phone"
+  ];
+  let language = "ps";
+  let records = [];
+  function loadRecords() {
+    try {
+      const stored = localStorage.getItem("pyj_records");
+      records = stored ? JSON.parse(stored) : [];
+      if (!Array.isArray(records)) {
+        records = [];
+      }
+    } catch (error) {
+      records = [];
+    }
+  }
+  function saveRecordsLocally() {
+    try {
+      localStorage.setItem("pyj_records", JSON.stringify(records));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+  function changeLanguage() {
+    language = document.getElementById("language").value;
+    const t = translations[language];
+    document.documentElement.lang = language;
+    document.documentElement.dir = t.dir;
+    const labels = {
+      siteTitle: "title",
+      siteSubtitle: "subtitle",
+      languageLabel: "language",
+      formTitle: "form",
+      nameLabel: "name",
+      surnameLabel: "surname",
+      districtLabel: "district",
+      educationLabel: "education",
+      jobLabel: "job",
+      originalLabel: "original",
+      currentLabel: "current",
+      phoneLabel: "phone",
+      saveButton: "save",
+      recordsTitle: "records",
+      storageNotice: "notice",
+      pdfButton: "pdf",
+      downloadButton: "download",
+      footerText: "footer"
+    };
+    for (const [elementId, key] of Object.entries(labels)) {
+      document.getElementById(elementId).textContent = t[key];
+    }
+    renderTable();
+  }
+  function renderTable() {
+    const t = translations[language];
+    const head = document.getElementById("tableHead");
+    const body = document.getElementById("recordsBody");
+    head.replaceChildren();
+    body.replaceChildren();
+    t.cols.forEach(function(label) {
+      const th = document.createElement("th");
+      th.textContent = label;
+      head.appendChild(th);
+    });
+    if (records.length === 0) {
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.colSpan = t.cols.length;
+      td.textContent = t.empty;
+      tr.appendChild(td);
+      body.appendChild(tr);
+      return;
+    }
+    records.forEach(function(record) {
+      const tr = document.createElement("tr");
+      keys.forEach(function(key) {
+        const td = document.createElement("td");
+        td.textContent = record[key] || "";
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+  }
+  document.getElementById("personForm")
+    .addEventListener("submit", function(event) {
+      event.preventDefault();
+      const record = {};
+      fieldIds.forEach(function(id) {
+        record[id] = document.getElementById(id).value.trim();
+      });
+      records.push(record);
+      if (!saveRecordsLocally()) {
+        records.pop();
+        document.getElementById("status").textContent =
+          "ذخیره ناکامه شوه. د براوزر حافظه وګورئ.";
+        return;
+      }
+      document.getElementById("status").textContent =
+        translations[language].success;
+      this.reset();
+      renderTable();
+    });
+  document.getElementById("downloadButton")
+    .addEventListener("click", function() {
+      const blob = new Blob(
+        [JSON.stringify(records, null, 2)],
+        { type: "application/json;charset=utf-8" }
+      );
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "paktia-youth-jirga-records.json";
+      link.click();
+      setTimeout(function() {
+        URL.revokeObjectURL(url);
+      }, 1000);
+    });
+  document.getElementById("pdfButton")
+    .addEventListener("click", function() {
+      window.print();
+    });
+  loadRecords();
+  changeLanguage();
+</script>
+</body>
+</html>

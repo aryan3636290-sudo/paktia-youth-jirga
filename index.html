@@ -482,31 +482,57 @@ SUPABASE_KEY
 ‎  }
 ‎
 ‎  document.getElementById("personForm")
-‎    .addEventListener("submit", function(event) {
-‎      event.preventDefault();
-‎
-‎      const record = {};
-‎
-‎      fieldIds.forEach(function(id) {
-‎        record[id] = document.getElementById(id).value.trim();
-‎      });
-‎
-‎      records.push(record);
-‎
-‎      if (!saveRecordsLocally()) {
-‎        records.pop();
-‎
-‎        document.getElementById("status").textContent =
-‎          "ذخیره ناکامه شوه. د براوزر حافظه وګورئ.";
-‎        return;
-‎      }
-‎
-‎      document.getElementById("status").textContent =
-‎        translations[language].success;
-‎
-‎      this.reset();
-‎      renderTable();
-‎    });
+.addEventListener("submit", async function(event) {
+event.preventDefault();
+
+const status = document.getElementById("status");
+const button = document.getElementById("saveButton");
+
+const record = {};
+
+fieldIds.forEach(function(id) {
+  record[id] = document.getElementById(id).value.trim();
+});
+
+if (fieldIds.some(function(id) {
+  return !record[id];
+})) {
+  status.textContent = "مهرباني وکړئ ټول کالمونه ډک کړئ.";
+  return;
+}
+
+button.disabled = true;
+status.textContent = "معلومات ثبتېږي...";
+
+try {
+  const { error } = await supabaseClient
+    .from("members")
+    .insert([record]);
+
+  if (error) {
+    throw error;
+  }
+
+  records.push(record);
+
+  saveRecordsLocally();
+  renderTable();
+
+  document.getElementById("personForm").reset();
+
+  status.textContent = "معلومات په بریالیتوب سره ثبت شول.";
+
+} catch (error) {
+  console.error("Supabase error:", error);
+
+  status.textContent =
+    "معلومات ثبت نه شول: " + error.message;
+
+} finally {
+  button.disabled = false;
+}
+
+});
 ‎
 ‎  document.getElementById("downloadButton")
 ‎    .addEventListener("click", function() {
